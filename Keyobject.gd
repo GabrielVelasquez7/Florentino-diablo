@@ -54,12 +54,12 @@ func spawn(pos: Vector2, direction: int) -> void:
 			rotation_degrees = -90  # Flecha hacia abajo
 
 	# Asegura que la flecha tenga la rotación correcta
-	print("debug=> Flecha generada con rotación: ", rotation_degrees)
+
 
 # Detecta cuando la flecha entra en el área de otra entidad
 func _on_area_entered(area):
 	inside_area = true
-	print("debug=> Contacto con la colisión!")
+
 
 # Detecta cuando la flecha sale del área de otra entidad
 func _on_area_exited(area):
