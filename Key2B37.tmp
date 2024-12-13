@@ -7,17 +7,17 @@
 radius = 8.07481
 
 [node name="Keyobject" type="Area2D"]
-position = Vector2(778, 339)
+rotation = 1.5708
 script = ExtResource("1_i51cw")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-position = Vector2(-8, -2)
+position = Vector2(55.5, 42)
 scale = Vector2(4.46875, 3.625)
 texture = ExtResource("2_wh7tq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, 1)
+position = Vector2(68, 46)
 scale = Vector2(4.46875, 3.625)
 shape = SubResource("CircleShape2D_oxru3")
 

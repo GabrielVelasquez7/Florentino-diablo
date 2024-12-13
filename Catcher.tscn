@@ -4,8 +4,8 @@
 radius = 35.171
 
 [node name="Catcher" type="Area2D"]
-position = Vector2(22, 25)
+position = Vector2(119, 110)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(76, 89)
+position = Vector2(3, 1)
 shape = SubResource("CircleShape2D_ynlsk")
