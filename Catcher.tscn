@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bc384xy22anpl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ynlsk"]
+radius = 68.3593
+
+[node name="Catcher" type="Area2D"]
+position = Vector2(22, 25)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(76, 89)
+shape = SubResource("CircleShape2D_ynlsk")
