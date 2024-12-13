@@ -16,7 +16,7 @@ func _process(delta):
 			queue_free()  # Elimina la flecha cuando la tecla es presionada
 
 # Función que verifica si la tecla presionada corresponde a la dirección de la flecha
-func is_correct_key_pressed() :
+func is_correct_key_pressed():
 	match direction:
 		0:  # Flecha hacia la izquierda
 			if Input.is_action_pressed("ui_left"):
