@@ -1,7 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://bc384xy22anpl"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ynlsk"]
-radius = 35.171
+radius = 28.0179
 
 [node name="Catcher" type="Area2D"]
 position = Vector2(119, 110)

@@ -1,6 +1,6 @@
 extends Area2D
 
-const GRAVITY = 150
+@export var GRAVITY = 0
 
 var inside_area = false
 var direction = -1  # -1 como valor predeterminado para la dirección
@@ -13,6 +13,7 @@ func _process(delta):
 		# Verificamos si la tecla correcta está presionada para la dirección
 		if is_correct_key_pressed():
 			print("debug=> tecla correcta presionada, eliminando flecha!")
+			play_correct_animation()  # Reproduce la animación
 			queue_free()  # Elimina la flecha cuando la tecla es presionada
 
 # Función que verifica si la tecla presionada corresponde a la dirección de la flecha
@@ -22,6 +23,7 @@ func is_correct_key_pressed():
 			if Input.is_action_pressed("ui_left"):
 				print("debug=> Flecha hacia la izquierda y tecla izquierda presionada")
 				return true
+
 		1:  # Flecha hacia la derecha
 			if Input.is_action_pressed("ui_right"):
 				print("debug=> Flecha hacia la derecha y tecla derecha presionada")
@@ -53,14 +55,8 @@ func spawn(pos: Vector2, direction: int) -> void:
 		3:
 			rotation_degrees = -90  # Flecha hacia abajo
 
-	# Asegura que la flecha tenga la rotación correcta
-
-
-# Detecta cuando la flecha entra en el área de otra entidad
-func _on_area_entered(area):
-	inside_area = true
-
-
-# Detecta cuando la flecha sale del área de otra entidad
-func _on_area_exited(area):
-	inside_area = false
+# Reproduce la animación
+func play_correct_animation():
+	var animation_player = $Objects/Catcher/Sprite2D/AnimationPlayer
+	if animation_player:
+		animation_player.play("correct_arrow")

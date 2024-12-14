@@ -47,5 +47,8 @@ func _spawn():
 
 		add_child(KeyInstance)  # Agrega la instancia como hijo
 
+
+
+
 func _on_timer_timeout():
 	_spawn()
