@@ -5,6 +5,16 @@ extends Area2D
 var inside_area = false
 var direction = -1  # -1 como valor predeterminado para la dirección
 
+# Definir una señal para notificar al Catcher cuando la tecla correcta sea presionada
+signal key_pressed_correctly(direction)
+
+# Referencia al AnimationPlayer del Catcher 1 (ya que solo tienes uno)
+var catcher_animation_player: AnimationPlayer = null
+
+func _ready():
+	# Asignamos el AnimationPlayer solo para el Catcher 1
+	catcher_animation_player = get_node_or_null("$Objects/Catcher/Sprite2D/AnimationPlayer")
+
 func _process(delta):
 	position.y += GRAVITY * delta  # Aplica la gravedad a la flecha
 
@@ -12,29 +22,25 @@ func _process(delta):
 	if inside_area:
 		# Verificamos si la tecla correcta está presionada para la dirección
 		if is_correct_key_pressed():
-			print("debug=> tecla correcta presionada, eliminando flecha!")
-			play_correct_animation()  # Reproduce la animación
+			# Solo intentamos reproducir la animación si la dirección es 0 (Catcher 1)
+			if direction == 0 and catcher_animation_player:
+				catcher_animation_player.play("change_color")  # Reproduce la animación
 			queue_free()  # Elimina la flecha cuando la tecla es presionada
 
 # Función que verifica si la tecla presionada corresponde a la dirección de la flecha
 func is_correct_key_pressed():
 	match direction:
-		0:  # Flecha hacia la izquierda
+		0:  # Flecha hacia la izquierda (Catcher 1)
 			if Input.is_action_pressed("ui_left"):
-				print("debug=> Flecha hacia la izquierda y tecla izquierda presionada")
 				return true
-
 		1:  # Flecha hacia la derecha
 			if Input.is_action_pressed("ui_right"):
-				print("debug=> Flecha hacia la derecha y tecla derecha presionada")
 				return true
 		2:  # Flecha hacia arriba
 			if Input.is_action_pressed("ui_up"):
-				print("debug=> Flecha hacia arriba y tecla arriba presionada")
 				return true
 		3:  # Flecha hacia abajo
 			if Input.is_action_pressed("ui_down"):
-				print("debug=> Flecha hacia abajo y tecla abajo presionada")
 				return true
 		_:
 			return false  # Si no tiene dirección asignada, no hace nada
@@ -55,8 +61,10 @@ func spawn(pos: Vector2, direction: int) -> void:
 		3:
 			rotation_degrees = -90  # Flecha hacia abajo
 
-# Reproduce la animación
-func play_correct_animation():
-	var animation_player = $Objects/Catcher/Sprite2D/AnimationPlayer
-	if animation_player:
-		animation_player.play("correct_arrow")
+# Detecta cuando la flecha entra en el área de otra entidad
+func _on_area_entered(area):
+	inside_area = true
+
+# Detecta cuando la flecha sale del área de otra entidad
+func _on_area_exited(area):
+	inside_area = false
