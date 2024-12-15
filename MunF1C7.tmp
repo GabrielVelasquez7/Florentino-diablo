@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://cn4joilpno6u"]
+
+[ext_resource type="Script" path="res://Mundo.gd" id="1_cvtqg"]
+[ext_resource type="PackedScene" uid="uid://3g1spajk6hqh" path="res://Keyobject.tscn" id="2_mp6r1"]
+[ext_resource type="PackedScene" uid="uid://bc384xy22anpl" path="res://Catcher.tscn" id="2_tukqv"]
+
+[node name="Mundo" type="Node2D"]
+script = ExtResource("1_cvtqg")
+Keyobject = ExtResource("2_mp6r1")
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="Catcher" parent="Objects" instance=ExtResource("2_tukqv")]
+position = Vector2(106, 501)
+
+[node name="Catcher2" parent="Objects" instance=ExtResource("2_tukqv")]
+position = Vector2(724, 500)
+
+[node name="Catcher3" parent="Objects" instance=ExtResource("2_tukqv")]
+position = Vector2(388, 502)
+
+[node name="Catcher4" parent="Objects" instance=ExtResource("2_tukqv")]
+position = Vector2(983, 497)
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(587, 40)
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

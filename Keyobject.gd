@@ -3,6 +3,7 @@ extends Area2D
 @export var GRAVITY = 0
 @export var INITIAL_LIVES = 3  # Número inicial de vidas
 
+
 var inside_area = false
 var direction = -1  # -1 como valor predeterminado para la dirección
 var lives = INITIAL_LIVES  # Inicializa las vidas
@@ -20,6 +21,13 @@ func _ready():
 	# Muestra las vidas iniciales
 	print("Vidas iniciales: ", lives)
 
+var direction = -1  # Dirección de la flecha (debe ser 0, 1, 2, o 3)
+var key_pressed = false  # Estado de si la tecla fue presionada correctamente
+var inside_area = false  # Estado de si la flecha está dentro del área
+var main_script : Node2D  # Para almacenar la referencia a main.gd
+
+
+
 func _process(delta):
 	position.y += GRAVITY * delta  # Aplica la gravedad a la flecha
 
@@ -31,6 +39,10 @@ func _process(delta):
 			if direction == 0 and catcher_animation_player:
 				catcher_animation_player.play("change_color")  # Reproduce la animación
 			queue_free()  # Elimina la flecha cuando la tecla es presionada
+
+	# Si la flecha está dentro del área de contacto y la tecla correcta es presionada
+	if inside_area and key_pressed and is_correct_key_pressed():
+		queue_free()  # Elimina la flecha cuando la tecla es presionada correctamente
 
 # Función que verifica si la tecla presionada corresponde a la dirección de la flecha
 func is_correct_key_pressed():
@@ -68,11 +80,12 @@ func spawn(pos: Vector2, direction: int) -> void:
 
 # Detecta cuando la flecha entra en el área de otra entidad
 func _on_area_entered(area):
-	inside_area = true
-
+	inside_area = true  # Marca que la flecha está dentro del área
+	key_pressed = false  # Restablece la tecla presionada cuando la flecha entra en el área
 
 # Detecta cuando la flecha sale del área de otra entidad
 func _on_area_exited(area):
+
 	inside_area = false
 	lives -= 1
 	
@@ -86,3 +99,8 @@ func _on_area_exited(area):
 			print("¡Has perdido! Juego terminado.")
 			# Aquí puedes agregar código para terminar el juego o reiniciarlo.
 			# Por ejemplo, podrías emitir una señal o llamar a algún método para finalizar el juego.
+
+	if not key_pressed:
+		main_script.reduce_life()  # Llama a reduce_life() en main.gd
+	inside_area = false  # Marca que la flecha ha salido del área
+
