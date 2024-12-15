@@ -6,6 +6,7 @@ var lives = 3
 # Nuevo atributo para almacenar la dirección de la flecha
 var direction: int
 
+
 func _ready():
 	randomize()  # Inicializa la aleatoriedad
 	# Guardamos las posiciones globales de los catchers, pero solo las coordenadas X
@@ -19,7 +20,7 @@ func _spawn():
 		if Keyobject:
 			var KeyInstance = Keyobject.instantiate()
 			# Asignamos la referencia a main.gd
-			KeyInstance.main_script = self  # Esto pasa la referencia de main.gd al script de la flecha
+			KeyInstance.Mundo_script = self  # Esto pasa la referencia de main.gd al script de la flecha
 
 		# Asigna una posición aleatoria al KeyInstance (usando el Marker2D como base)
 			var pos = $Marker2D.position  # Usar la posición del Marker2D como la posición inicial
@@ -58,7 +59,7 @@ func _on_timer_timeout():
 		timer.wait_time = max(timer.wait_time - 0.0011, 0.25)  # Reducir el tiempo de espera en 0.1, pero no menos de 0.1
 
 	
-	var lives = 3  # Número de vidas en main.gd
+
 
 # Función para reducir una vida
 func reduce_life():

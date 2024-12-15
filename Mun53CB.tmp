@@ -1,0 +1,101 @@
+[gd_scene load_steps=12 format=3 uid="uid://cn4joilpno6u"]
+
+[ext_resource type="Script" path="res://Mundo.gd" id="1_cvtqg"]
+[ext_resource type="PackedScene" uid="uid://3g1spajk6hqh" path="res://Keyobject.tscn" id="2_mp6r1"]
+[ext_resource type="PackedScene" uid="uid://bc384xy22anpl" path="res://Catcher.tscn" id="2_tukqv"]
+[ext_resource type="Texture2D" uid="uid://c7hogw5j5kwfi" path="res://Flecha_izquierda.png" id="4_glxlq"]
+[ext_resource type="Texture2D" uid="uid://b8jvse71l1olx" path="res://Flecha_derecha.png" id="5_7hfgi"]
+[ext_resource type="Texture2D" uid="uid://c2rxa13vhuveh" path="res://Flecha_arriba.png" id="5_usceg"]
+[ext_resource type="Texture2D" uid="uid://k3xthxkauxig" path="res://Flecha_abajo.png" id="7_nyc2j"]
+[ext_resource type="Texture2D" uid="uid://wwy4s7glmlsu" path="res://Flecha_izquierda_acierto.png" id="8_ou44h"]
+
+[sub_resource type="Animation" id="Animation_f5y1o"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Objects/Catcher/Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_glxlq")]
+}
+
+[sub_resource type="Animation" id="Animation_3uuo5"]
+resource_name = "change_color"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Objects/Catcher/Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [ExtResource("4_glxlq"), ExtResource("8_ou44h"), ExtResource("4_glxlq")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oxm8g"]
+_data = {
+"RESET": SubResource("Animation_f5y1o"),
+"change_color": SubResource("Animation_3uuo5")
+}
+
+[node name="Mundo" type="Node2D"]
+script = ExtResource("1_cvtqg")
+Keyobject = ExtResource("2_mp6r1")
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="Catcher" parent="Objects" instance=ExtResource("2_tukqv")]
+position = Vector2(106, 501)
+
+[node name="Sprite2D" type="Sprite2D" parent="Objects/Catcher"]
+texture_filter = 1
+scale = Vector2(4.6875, 4.0625)
+texture = ExtResource("4_glxlq")
+
+[node name="Catcher2" parent="Objects" instance=ExtResource("2_tukqv")]
+position = Vector2(724, 500)
+
+[node name="Sprite2D" type="Sprite2D" parent="Objects/Catcher2"]
+texture_filter = 1
+position = Vector2(10, 0)
+scale = Vector2(4.688, 4.688)
+texture = ExtResource("5_7hfgi")
+
+[node name="Catcher3" parent="Objects" instance=ExtResource("2_tukqv")]
+position = Vector2(388, 502)
+
+[node name="Sprite2D" type="Sprite2D" parent="Objects/Catcher3"]
+texture_filter = 1
+position = Vector2(4.50002, -8.75)
+scale = Vector2(4.212, 4.063)
+texture = ExtResource("5_usceg")
+
+[node name="Catcher4" parent="Objects" instance=ExtResource("2_tukqv")]
+position = Vector2(983, 497)
+
+[node name="Sprite2D" type="Sprite2D" parent="Objects/Catcher4"]
+texture_filter = 1
+position = Vector2(0, 10)
+scale = Vector2(4.688, 4.688)
+texture = ExtResource("7_nyc2j")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(587, 40)
+
+[node name="start_timer" type="Timer" parent="."]
+wait_time = 0.386
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_oxm8g")
+}
+
+[connection signal="timeout" from="start_timer" to="." method="_on_timer_timeout"]
