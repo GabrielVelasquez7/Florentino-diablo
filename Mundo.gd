@@ -48,7 +48,10 @@ func _spawn():
 		add_child(KeyInstance)  # Agrega la instancia como hijo
 
 
-
-
 func _on_timer_timeout():
-	_spawn()
+		_spawn()
+		var timer = $start_timer  # Suponiendo que el temporizador es un nodo llamado "Timer"
+		timer.wait_time = max(timer.wait_time - 0.0011, 0.25)  # Reducir el tiempo de espera en 0.1, pero no menos de 0.1
+
+
+
