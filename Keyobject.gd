@@ -9,6 +9,7 @@ var lives = INITIAL_LIVES  # Inicializa las vidas
 var key_pressed = false  # Estado de si la tecla fue presionada correctamente
 var Mundo_script : Node2D  # Referencia al script principal (main.gd)
 var catcher_animation_player: AnimationPlayer = null  # Referencia al AnimationPlayer del Catcher
+var main_script : Node2D  # Para almacenar la referencia a main.gd
 
 # Definir una señal para notificar cuando la tecla correcta sea presionada
 signal key_pressed_correctly(direction)
@@ -19,8 +20,11 @@ func _ready():
 	# Asignamos el script principal
 	Mundo_script = get_parent()  # Ajusta según la jerarquía
 
+
+
 func _process(delta):
-	position.y += GRAVITY * delta  # Aplica la gravedad a la flecha
+	position.y += GRAVITY * delta
+
 
 	# Verifica si la flecha está dentro del área y la tecla correcta fue presionada
 	if inside_area and is_correct_key_pressed():
@@ -44,17 +48,37 @@ func spawn(pos: Vector2, direction: int) -> void:
 	self.direction = direction  # Asigna la dirección recibida
 
 	# Define la rotación según la dirección
+
+	if inside_area and key_pressed:
+		if is_correct_key_pressed():
+			queue_free()
+
+func is_correct_key_pressed():
+
 	match direction:
 		0:
-			rotation_degrees = 0  # Flecha hacia la izquierda
+			return Input.is_action_pressed("ui_left")
 		1:
-			rotation_degrees = 180  # Flecha hacia la derecha
+			return Input.is_action_pressed("ui_right")
 		2:
-			rotation_degrees = 90  # Flecha hacia arriba
+			return Input.is_action_pressed("ui_up")
 		3:
-			rotation_degrees = -90  # Flecha hacia abajo
+			return Input.is_action_pressed("ui_down")
+		_:
+			return false
+
+func _input(event):
+	if event.is_action_pressed("ui_left") and direction == 0 and inside_area:
+		key_pressed = true
+	elif event.is_action_pressed("ui_right") and direction == 1 and inside_area:
+		key_pressed = true
+	elif event.is_action_pressed("ui_up") and direction == 2 and inside_area:
+		key_pressed = true
+	elif event.is_action_pressed("ui_down") and direction == 3 and inside_area:
+		key_pressed = true
 
 func _on_area_entered(area):
+
 	inside_area = true  # Marca que la flecha está dentro del área
 	key_pressed = false  # Restablece la tecla presionada
 
@@ -63,3 +87,13 @@ func _on_area_exited(area):
 	if inside_area and not key_pressed:
 		Mundo_script.reduce_life()
 	inside_area = false  # Marca que la flecha ha salido del área
+
+	inside_area = true
+	key_pressed = false
+
+func _on_area_exited(area):
+	if not key_pressed:
+		main_script.reduce_life()
+	inside_area = false
+	key_pressed = false
+
