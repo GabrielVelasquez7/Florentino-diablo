@@ -58,8 +58,6 @@ func _on_timer_timeout():
 		var timer = $start_timer  # Suponiendo que el temporizador es un nodo llamado "Timer"
 		timer.wait_time = max(timer.wait_time - 0.0011, 0.25)  # Reducir el tiempo de espera en 0.1, pero no menos de 0.1
 
-	
-
 
 # Función para reducir una vida
 func reduce_life():
